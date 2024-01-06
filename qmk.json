@@ -1,4 +1,10 @@
 {
     "userspace_version": "1.0",
-    "build_targets": []
+    "build_targets": [
+        ["planck/rev6", "cineafx"],
+        ["planck/rev7", "cineafx"],
+        ["ymdk/ymd21/v2", "cineafx"],
+        ["keebio/iris/rev2", "cineafx"],
+        ["idobao/id75/v1", "cineafx"]
+    ]
 }
