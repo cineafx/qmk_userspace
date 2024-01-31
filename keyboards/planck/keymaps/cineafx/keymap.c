@@ -20,6 +20,8 @@
 #include <sendstring_german.h>
 
 // qmk compile -kb planck/rev6 -km cineafx
+// qmk compile -kb planck/rev7 -km cineafx
+// qmk userspace-compile -j 0
 
 enum planck_layers {
   _QWERTY,
@@ -191,7 +193,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
  */
 [_RAISE] = LAYOUT_planck_grid(
-    QK_GESC, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,   KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_MINS,
+    _______, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,   KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_MINS,
     _______, _______, _______, _______, _______, _______,   X(BBSL),X(CURBL),X(SQUBL),X(SQUBR),X(CURBR), KC_EQL ,
     _______, KC_NUBS,KC_SNUBS,X(PPIPE),X(TTILD), _______,   _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______,   _______, _______, KC_DEL , _______, _______, _______
