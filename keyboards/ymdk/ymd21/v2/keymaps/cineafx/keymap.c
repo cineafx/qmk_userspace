@@ -18,13 +18,13 @@
 
 // qmk compile -kb ymdk/ymd21/v2 -km cineafx
 
-//#define CSF8 C(S(KC_F8))
-//#define MEHF8 MEH(KC_F8)
-//#define CF8 C(KC_F8)
+#define DIS_MUT S(KC_F14)
+#define DIS_VAD A(KC_F14)
+#define TS_MUT S(KC_F15)
+#define TS_VAD A(KC_F15)
+#define TS_TFAR KC_F16
+
 #define CSF11 C(S(KC_F11))
-#define CSH C(S(KC_HOME))
-#define SAH LSA(KC_HOME)
-#define SAE LSA(KC_END)
 
 const uint32_t PROGMEM unicode_map[] = {
 
@@ -43,8 +43,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [1] = LAYOUT_ortho_6x4(
         KC_CALC, RGB_MOD, RGB_TOG, _______,
-        CSH    , SAH    , SAE    , CSF11  ,
-        _______, _______, _______, _______,
+        DIS_MUT, TS_MUT , TS_TFAR, CSF11  ,
+        DIS_VAD, TS_VAD , _______, _______,
         _______, _______, _______, _______,
         _______, _______, _______, _______,
         _______, _______, _______, QK_BOOT
