@@ -18,10 +18,12 @@
 #include "muse.h"
 //#include "process_unicode_common.h"
 #include <sendstring_german.h>
+#include "os_detection.h"
 
 // qmk compile -kb planck/rev6 -km cineafx
 // qmk compile -kb planck/rev7 -km cineafx
 // qmk userspace-compile -j 0
+// qmk flash -kb planck/rev7 -km cineafx
 
 enum planck_layers {
   _QWERTY,
@@ -172,7 +174,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT_planck_grid(
     KC_GRV , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,   KC_INS , KC_PGUP, KC_HOME, KC_PGDN, KC_PSCR, KC_RBRC,
     _______, _______, _______, _______, _______, _______,   KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, _______, KC_BSLS,
-    _______, KC_NUBS,KC_SNUBS,X(PPIPE),X(TTILD), _______,   KC_END , _______, _______, _______, _______, _______,
+    _______, KC_NUBS,KC_SNUBS,UM(PPIPE),UM(TTILD), _______,   KC_END , _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______,   _______, _______, KC_DEL , _______, _______, _______
 ),
 
@@ -193,10 +195,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
  */
 [_RAISE] = LAYOUT_planck_grid(
-    _______, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,   KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_MINS,
-    _______, _______, _______, _______, _______, _______,   X(BBSL),X(CURBL),X(SQUBL),X(SQUBR),X(CURBR), KC_EQL ,
-    _______, KC_NUBS,KC_SNUBS,X(PPIPE),X(TTILD), _______,   _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______,   _______, _______, KC_DEL , _______, _______, _______
+    _______ , KC_1    , KC_2    , KC_3    , KC_4    , KC_5    ,    KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , KC_MINS ,
+    _______ , _______ , _______ , _______ , _______ , _______ ,    UM(BBSL),UM(CURBL),UM(SQUBL),UM(SQUBR),UM(CURBR), KC_EQL  ,
+    _______ , KC_NUBS , KC_SNUBS,UM(PPIPE),UM(TTILD), _______ ,    _______ , _______ , _______ , _______ , _______ , _______ ,
+    _______ , _______ , _______ , _______ , _______ , _______ ,    _______ , _______ , KC_DEL  , _______ , _______ , _______
 ),
 
 /* Plover layer (http://opensteno.org)
@@ -247,7 +249,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_MOD] = LAYOUT_planck_grid(
-    _______, PYRA5  , PYRA10 , PYRA20 , APPDATA, ICTHINK, X(NOCHAR), UWU    , _______, _______, _______, KC_CAPS,
+    _______, PYRA5  , PYRA10 , PYRA20 , APPDATA, ICTHINK, UM(NOCHAR), UWU    , _______, _______, _______, KC_CAPS,
     _______, _______, SHRUG  , _______, FDM    , ICDANK ,   _______, _______, OKAY   , _______, _______, _______,
     _______,S(KC_F9),C(KC_F2), KC_F9  , _______, _______,  NICEMEME, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______
@@ -266,8 +268,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_SYSTEM] = LAYOUT_planck_grid(
-    _______, QK_BOOT, DB_TOGG, RGB_TOG, RGB_MOD, RGB_HUI,   RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______,
-    _______, _______, MU_NEXT, AU_ON  , AU_OFF , _______,   _______, QWERTY , GAME   , _______,  PLOVER, _______,
+    _______, QK_BOOT, DB_TOGG, UG_TOGG, UG_NEXT, UG_HUEU,   UG_HUED, UG_SATU, UG_SATD, UG_VALU, UG_VALD, UC_LINX,
+    _______, _______, MU_NEXT, AU_ON  , AU_OFF , _______,   _______, QWERTY , GAME   , _______,  PLOVER,  UC_WIN,
     _______, AU_PREV, AU_NEXT, MU_ON  , MU_OFF , MI_ON  ,   MI_OFF , _______, DT_PRNT, DT_UP  , DT_DOWN, _______,
     _______, _______, _______, _______, _______, _______,   _______, _______, KC_MPRV, KC_MNXT, KC_MPLY, _______
 )
@@ -281,6 +283,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+}
+
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    switch (detected_os) {
+        case OS_WINDOWS:
+            set_unicode_input_mode(UNICODE_MODE_WINCOMPOSE);
+            break;
+        case OS_LINUX:
+            set_unicode_input_mode(UNICODE_MODE_LINUX);
+            break;
+        default:
+            // fallback, do nothing
+            break;
+    }
+
+    return true;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -323,9 +341,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (!eeconfig_is_enabled()) {
             eeconfig_init();
         }
-        keymap_config.raw = eeconfig_read_keymap();
+        eeconfig_read_keymap(&keymap_config);
         keymap_config.nkro = 1;
-        eeconfig_update_keymap(keymap_config.raw);
+        eeconfig_update_keymap(&keymap_config);
       }
       return false;
       break;
@@ -400,13 +418,13 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
   } else {
     if (clockwise) {
       #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_DOWN);
+        tap_code(QK_MOUSE_WHEEL_DOWN);
       #else
         tap_code(KC_PGDN);
       #endif
     } else {
       #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_UP);
+        tap_code(QK_MOUSE_WHEEL_UP);
       #else
         tap_code(KC_PGUP);
       #endif

@@ -17,6 +17,7 @@
 #include QMK_KEYBOARD_H
 
 // qmk compile -kb ymdk/ymd21/v2 -km cineafx
+// qmk flash -kb ymdk/ymd21/v2 -km cineafx
 
 #define DIS_MUT S(KC_F14)
 #define DIS_VAD A(KC_F14)
@@ -42,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [1] = LAYOUT_ortho_6x4(
-        KC_CALC, RGB_MOD, RGB_TOG, _______,
+        KC_CALC, UG_TOGG, UG_NEXT, _______,
         DIS_MUT, TS_MUT , TS_TFAR, CSF11  ,
         DIS_VAD, TS_VAD , _______, _______,
         _______, _______, _______, _______,
